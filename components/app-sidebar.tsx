@@ -60,7 +60,7 @@ const data = {
       items: [
         {
           title: "Inquiries",
-          url: "#",
+          url: "inquiries",
         },
         {
           title: "Processing",

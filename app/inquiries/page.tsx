@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import { Chart } from "@/components/dashboard-chart"
+import { DataTable } from "@/components/data-table"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar"
 
 export default function Page() {
-  return (
+    return (
     <SidebarProvider
       style={
         {
@@ -36,20 +36,20 @@ export default function Page() {
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
                 <BreadcrumbPage>
-                  Dexsora
+                  Squad Medical Supply
                 </BreadcrumbPage>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="inquiries">Inquiries</BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Chart/>
+            <DataTable/>
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+    )
 }
