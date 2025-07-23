@@ -25,6 +25,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { CommandMenu } from "./command-menu"
+import { SearchForm } from "./search-form"
 
 const data = {
   user: {
@@ -117,8 +119,10 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="floating" collapsible="icon" {...props}>
+      <CommandMenu/>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
+        <SearchForm />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
