@@ -7,9 +7,9 @@ export default function Page(){
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem className="hidden md:block">
-            <BreadcrumbPage>
+            <BreadcrumbLink href="/">
               Squad Medical Supplies
-            </BreadcrumbPage>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>

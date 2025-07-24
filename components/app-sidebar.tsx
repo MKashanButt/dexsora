@@ -12,6 +12,8 @@ import {
   PieChart,
   SquareTerminal,
   Database,
+  Store,
+  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -52,68 +54,60 @@ const data = {
     },
   ],
   navMain: [
-    {
-      title: "Squad Medical Supplies",
-      url: "#",
-      icon: Database,
-      isActive: true,
-      items: [
-        {
-          title: "Inquiries",
-          url: "inquiries",
-        },
-        {
-          title: "Processing",
-          url: "#",
-        },
+  {
+    title: "Squad Medical Supplies",
+    url: "#",
+    icon: Database,
+    isActive: false,
+    tree: [
+      [
+        "Customers",
+        [
+          { title: "Inquiries", url: "/customers/inquiries" },
+          { title: "Awaiting Prescriptions", url: "/customers/awaiting-prescriptions" },
+          { title: "Shipments", url: "/customers/shipments" },
+          { title: "Billed To Insurance", url: "/customers/billed" },
+          { title: "Paid By Insurance", url: "/customers/paid" },
+          { title: "Online Purchase", url: "/customers/online-purchase" },
+          { title: "Denials", url: "/customers/denials" },
+        ],
       ],
-    },
-    {
-      title: "Reshape Medical Equipments",
-      url: "#",
-      icon: Database,
-      items: [
-        {
-          title: "Inquiries",
-          url: "#",
-        },
-        {
-          title: "Processing",
-          url: "#",
-        },
+      [
+        "Recurring Patients",
+        [
+          { title: "CGM Supplies", url: "/patients/cgm-supplies" },
+          { title: "Catheters Supplies", url: "/patients/catheters-supplies" },
+          { title: "BGM Supplies", url: "/patients/bgm-supplies" },
+          { title: "Wheelchair Rental", url: "/patients/wheelchair-rental" },
+        ],
       ],
-    },
-    {
-      title: "Bargain Medical Supply",
-      url: "#",
-      icon: Database,
-      items: [
-        {
-          title: "Inquiries",
-          url: "#",
-        },
-        {
-          title: "Processing",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "S8 Medical Equipment",
-      url: "#",
-      icon: Database,
-      items: [
-        {
-          title: "Inquiries",
-          url: "#",
-        },
-        {
-          title: "Processing",
-          url: "#",
-        },
-      ],
-    },
-  ],
+    ],
+  },
+  {
+    title: "My Adds",
+    url: "#",
+    icon: Store,
+    isActive: false,
+    tree: [
+          { title: "Facebook", url: "/ads/facebook" },
+          { title: "Instagram", url: "/ads/instagram" },
+          { title: "Google", url: "/ads/google" },
+          { title: "Uber", url: "/ads/uber" },
+          { title: "Pamphlet", url: "/ads/pamphlet" },
+    ],
+  },
+  {
+    title: "Users",
+    url: "#",
+    icon: Users,
+    isActive: false,
+    tree: [
+          { title: "Assign User", url: "/users/assign" },
+          { title: "Remove User", url: "/users/remove" },
+          { title: "My Users", url: "/users/mine" },
+    ],
+  },
+],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
