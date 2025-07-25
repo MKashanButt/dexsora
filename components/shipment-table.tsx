@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/table";
 import AccessDropdown from "./access-dropdown";
 import { DeleteDialog } from "./delete-dialog";
+import { SheetDropdown } from "./sheet-dropdown";
 
 export type Shipment = {
   id: string;
@@ -47,100 +48,23 @@ export type Shipment = {
   created_at: string;
 };
 
-export const columns: ColumnDef<Shipment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Timestamp
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("created_at")}</div>,
-  },
-  {
-    accessorKey: "comment",
-    header: "Comment",
-    cell: ({ row }) => <div>{row.getValue("comment")}</div>,
-  },
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("Phone")}</div>
-    ),
-  },
-  {
-    accessorKey: "address",
-    header: "Address",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("Address")}</div>
-    ),
-  },
-  {
-    accessorKey: "document",
-    header: "Document",
-    cell: ({ row }) => <div>{<FileText />}</div>,
-  },
-  {
-    accessorKey: "pod",
-    header: "POD",
-    cell: ({ row }) => <div>{<FileText />}</div>,
-  },
-  {
-    accessorKey: "actions",
-    header: "Actions",
-    cell: ({ row }) => (
-      <div className="flex gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Move To <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Sheet</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DeleteDialog />
-      </div>
-    ),
-  },
-];
+type NavItem = {
+  title: string;
+  url?: string;
+  icon?: React.ComponentType<any>;
+  isActive?: boolean;
+  tree?: any[];
+};
 
-export function DataTable() {
+export function DataTable({ nav }: { nav: NavItem[] }) {
+  const squadMedical = nav.find(
+    (item) => item.title === "Squad Medical Supplies"
+  );
+  const customersSection = squadMedical?.tree?.find(
+    (section: any) => Array.isArray(section) && section[0] === "Customers"
+  );
+  const customersPages = customersSection ? customersSection[1] : [];
+
   const [data, setData] = React.useState<Shipment[]>([]);
 
   React.useEffect(() => {
@@ -156,7 +80,99 @@ export function DataTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const columns: ColumnDef<Shipment>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "created_at",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Timestamp
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => <div>{row.getValue("created_at")}</div>,
+    },
+    {
+      accessorKey: "comment",
+      header: "Comment",
+      cell: ({ row }) => <div>{row.getValue("comment")}</div>,
+    },
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "phone",
+      header: "Phone",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("Phone")}</div>
+      ),
+    },
+    {
+      accessorKey: "address",
+      header: "Address",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("Address")}</div>
+      ),
+    },
+    {
+      accessorKey: "document",
+      header: "Document",
+      cell: ({ row }) => <div>{<FileText />}</div>,
+    },
+    {
+      accessorKey: "pod",
+      header: "POD",
+      cell: ({ row }) => <div>{<FileText />}</div>,
+    },
+    {
+      accessorKey: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <SheetDropdown
+            customers={customersPages}
+            row={row.original}
+            onMove={() => {
+              setData((prev) =>
+                prev.filter((item) => item.id !== row.original.id)
+              );
+            }}
+          />
+          <DeleteDialog />
+        </div>
+      ),
+    },
+  ];
   const table = useReactTable({
     data,
     columns,

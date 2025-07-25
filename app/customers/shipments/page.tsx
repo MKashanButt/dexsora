@@ -1,4 +1,7 @@
-import { DataTable } from "@/components/awaiting-table";
+"use client";
+
+import { DataTable } from "@/components/shipment-table";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,6 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import AppLayout from "@/layouts/app-layout";
+import { navigation } from "@/lib/utils";
 
 export default function Page() {
   const breadcrumbs = (
@@ -26,7 +30,7 @@ export default function Page() {
   );
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <DataTable />
+      <DataTable nav={navigation.navMain} />
     </AppLayout>
   );
 }
