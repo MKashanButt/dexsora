@@ -1,10 +1,9 @@
-import { DataTable } from "@/components/inquiries-table";
+import { DataTable } from "@/components/awaiting-table";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import AppLayout from "@/layouts/app-layout";
@@ -18,7 +17,9 @@ export default function Page() {
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/inquiries">Inquiries</BreadcrumbLink>
+          <BreadcrumbLink href="/awaiting-prescriptions">
+            Awaiting Prescriptions
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

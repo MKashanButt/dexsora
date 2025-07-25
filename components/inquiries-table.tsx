@@ -13,12 +13,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  ChevronDown,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { ArrowUpDown, ChevronDown, Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,6 +21,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -37,14 +33,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
 import AccessDropdown from "./access-dropdown";
 import { DeleteDialog } from "./delete-dialog";
 
@@ -97,6 +85,11 @@ export const columns: ColumnDef<Inquiries>[] = [
     cell: ({ row }) => <div>{row.getValue("created_at")}</div>,
   },
   {
+    accessorKey: "ip",
+    header: "IP",
+    cell: ({ row }) => <div>{row.getValue("ip")}</div>,
+  },
+  {
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
@@ -122,19 +115,21 @@ export const columns: ColumnDef<Inquiries>[] = [
     cell: ({ row }) => <div>{row.getValue("phone")}</div>,
   },
   {
-    accessorKey: "ip",
-    header: "IP",
-    cell: ({ row }) => <div>{row.getValue("ip")}</div>,
-  },
-  {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => (
-      <div>
-        <Button size="icon" variant="outline" className="shrink-0 mr-4">
-          <Pencil className="w-4 h-4" />
-        </Button>
-        <DeleteDialog/>
+      <div className="flex gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Move To <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Sheet</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DeleteDialog />
       </div>
     ),
   },

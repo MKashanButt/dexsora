@@ -1,34 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  SquareTerminal,
   Database,
   Store,
   Users,
-} from "lucide-react"
+  Facebook,
+  Instagram,
+  Chrome,
+  Car,
+  Scroll,
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { CommandMenu } from "./command-menu"
-import { SearchForm } from "./search-form"
+} from "@/components/ui/sidebar";
+import { CommandMenu } from "./command-menu";
+import { SearchForm } from "./search-form";
 
 const data = {
   user: {
@@ -54,66 +53,72 @@ const data = {
     },
   ],
   navMain: [
-  {
-    title: "Squad Medical Supplies",
-    url: "#",
-    icon: Database,
-    isActive: false,
-    tree: [
-      [
-        "Customers",
+    {
+      title: "Squad Medical Supplies",
+      url: "#",
+      icon: Database,
+      isActive: false,
+      tree: [
         [
-          { title: "Inquiries", url: "/customers/inquiries" },
-          { title: "Awaiting Prescriptions", url: "/customers/awaiting-prescriptions" },
-          { title: "Shipments", url: "/customers/shipments" },
-          { title: "Billed To Insurance", url: "/customers/billed" },
-          { title: "Paid By Insurance", url: "/customers/paid" },
-          { title: "Online Purchase", url: "/customers/online-purchase" },
-          { title: "Denials", url: "/customers/denials" },
+          "Customers",
+          [
+            { title: "Inquiries", url: "/customers/inquiries" },
+            {
+              title: "Awaiting Prescriptions",
+              url: "/customers/awaiting-prescriptions",
+            },
+            { title: "Shipments", url: "/customers/shipments" },
+            { title: "Billed To Insurance", url: "/customers/billed" },
+            { title: "Paid By Insurance", url: "/customers/paid" },
+            { title: "Online Purchase", url: "/customers/online-purchase" },
+            { title: "Denials", url: "/customers/denials" },
+          ],
+        ],
+        [
+          "Recurring Patients",
+          [
+            { title: "CGM Supplies", url: "/patients/cgm-supplies" },
+            {
+              title: "Catheters Supplies",
+              url: "/patients/catheters-supplies",
+            },
+            { title: "BGM Supplies", url: "/patients/bgm-supplies" },
+            { title: "Wheelchair Rental", url: "/patients/wheelchair-rental" },
+          ],
         ],
       ],
-      [
-        "Recurring Patients",
-        [
-          { title: "CGM Supplies", url: "/patients/cgm-supplies" },
-          { title: "Catheters Supplies", url: "/patients/catheters-supplies" },
-          { title: "BGM Supplies", url: "/patients/bgm-supplies" },
-          { title: "Wheelchair Rental", url: "/patients/wheelchair-rental" },
-        ],
+    },
+    {
+      title: "My Adds",
+      url: "#",
+      icon: Store,
+      isActive: false,
+      tree: [
+        { title: "Facebook", url: "/ads/facebook", icon: Facebook },
+        { title: "Instagram", url: "/ads/instagram", icon: Instagram },
+        { title: "Google", url: "/ads/google", icon: Chrome },
+        { title: "Uber", url: "/ads/uber", icon: Car },
+        { title: "Pamphlet", url: "/ads/pamphlet", icon: Scroll },
       ],
-    ],
-  },
-  {
-    title: "My Adds",
-    url: "#",
-    icon: Store,
-    isActive: false,
-    tree: [
-          { title: "Facebook", url: "/ads/facebook" },
-          { title: "Instagram", url: "/ads/instagram" },
-          { title: "Google", url: "/ads/google" },
-          { title: "Uber", url: "/ads/uber" },
-          { title: "Pamphlet", url: "/ads/pamphlet" },
-    ],
-  },
-  {
-    title: "Users",
-    url: "#",
-    icon: Users,
-    isActive: false,
-    tree: [
-          { title: "Assign User", url: "/users/assign" },
-          { title: "Remove User", url: "/users/remove" },
-          { title: "My Users", url: "/users/mine" },
-    ],
-  },
-],
-}
+    },
+    {
+      title: "Users",
+      url: "#",
+      icon: Users,
+      isActive: false,
+      tree: [
+        { title: "Assign User", url: "/users/assign" },
+        { title: "Remove User", url: "/users/remove" },
+        { title: "My Users", url: "/users/mine" },
+      ],
+    },
+  ],
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="floating" collapsible="icon" {...props}>
-      <CommandMenu/>
+      <CommandMenu />
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
         <SearchForm />
@@ -127,5 +132,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

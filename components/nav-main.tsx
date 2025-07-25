@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { ChevronRight, File, Folder, type LucideIcon } from "lucide-react"
+import { ChevronRight, File, Folder, type LucideIcon } from "lucide-react";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   SidebarContent,
   SidebarGroup,
@@ -18,22 +18,22 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
     items?: {
-      title: string
-      url: string
-    }[]
-    tree?: any[] // <-- important
-  }[]
+      title: string;
+      url: string;
+    }[];
+    tree?: any[]; // <-- important
+  }[];
 }) {
   return (
     <SidebarContent>
@@ -69,11 +69,11 @@ export function NavMain({
         </SidebarGroup>
       </SidebarGroupContent>
     </SidebarContent>
-  )
+  );
 }
 
 function Tree({ item }: { item: string | any[] }) {
-  const [name, children] = Array.isArray(item) ? item : [item]
+  const [name, children] = Array.isArray(item) ? item : [item];
 
   // If it's a single-level leaf node (a page link, not a folder)
   if (!Array.isArray(children)) {
@@ -84,7 +84,7 @@ function Tree({ item }: { item: string | any[] }) {
           {name.title ?? name}
         </a>
       </SidebarMenuButton>
-    )
+    );
   }
 
   return (
@@ -103,11 +103,14 @@ function Tree({ item }: { item: string | any[] }) {
         <CollapsibleContent>
           <SidebarMenuSub>
             {children.map((child: any, idx: number) => (
-              <Tree key={idx} item={child.title ? [child.title, child] : child} />
+              <Tree
+                key={idx}
+                item={child.title ? [child.title, child] : child}
+              />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>
       </Collapsible>
     </SidebarMenuItem>
-  )
+  );
 }
