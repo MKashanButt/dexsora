@@ -13,7 +13,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, FileText } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -21,7 +21,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -33,17 +32,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import AccessDropdown from "./access-dropdown";
-import { DeleteDialog } from "./delete-dialog";
-import { SheetDropdown } from "./sheet-dropdown";
+import AccessDropdown from "../access-dropdown";
+import { DeleteDialog } from "../delete-dialog";
+import { SheetDropdown } from "../sheet-dropdown";
 
 export type Inquiries = {
   id: string;
   name: string;
   phone: string;
-  address: string;
-  comment: string;
-  document: string;
+  email: string;
+  dob: string;
+  ip: string;
   created_at: string;
 };
 
@@ -67,7 +66,7 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
   const [data, setData] = React.useState<Inquiries[]>([]);
 
   React.useEffect(() => {
-    fetch("/awaiting-prescriptions.json")
+    fetch("/inquiries.json")
       .then((res) => res.json())
       .then(setData);
   }, []);
@@ -80,6 +79,7 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  // Define columns inside the component so customersPages is in scope
   const columns: ColumnDef<Inquiries>[] = [
     {
       id: "select",
@@ -105,23 +105,21 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     },
     {
       accessorKey: "created_at",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Timestamp
-            <ArrowUpDown />
-          </Button>
-        );
-      },
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Timestamp
+          <ArrowUpDown />
+        </Button>
+      ),
       cell: ({ row }) => <div>{row.getValue("created_at")}</div>,
     },
     {
-      accessorKey: "comment",
-      header: "Comment",
-      cell: ({ row }) => <div>{row.getValue("comment")}</div>,
+      accessorKey: "ip",
+      header: "IP",
+      cell: ({ row }) => <div>{row.getValue("ip")}</div>,
     },
     {
       accessorKey: "name",
@@ -131,23 +129,24 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
       ),
     },
     {
+      accessorKey: "email",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("email")}</div>
+      ),
+    },
+    {
       accessorKey: "phone",
-      header: "Phone",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("Phone")}</div>
-      ),
-    },
-    {
-      accessorKey: "address",
-      header: "Address",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("Address")}</div>
-      ),
-    },
-    {
-      accessorKey: "document",
-      header: "Document",
-      cell: ({ row }) => <div>{<FileText />}</div>,
+      header: "Phone No",
+      cell: ({ row }) => <div>{row.getValue("phone")}</div>,
     },
     {
       accessorKey: "actions",
@@ -168,6 +167,7 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
       ),
     },
   ];
+
   const table = useReactTable({
     data,
     columns,
@@ -191,10 +191,10 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     <div className="w-full">
       <div className="flex items-center py-4 justify-between">
         <Input
-          placeholder="Filter name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -209,20 +209,18 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
               {table
                 .getAllColumns()
                 .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
+                .map((column) => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
             </DropdownMenuContent>
           </DropdownMenu>
           <AccessDropdown />
@@ -233,18 +231,15 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {!header.isPlaceholder &&
+                      flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -253,7 +248,7 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

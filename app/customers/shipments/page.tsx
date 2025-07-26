@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/shipment-table";
+import { DataTable } from "@/components/tables/shipment";
 
 import {
   Breadcrumb,

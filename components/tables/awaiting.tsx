@@ -21,7 +21,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -33,18 +32,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import AccessDropdown from "./access-dropdown";
-import { DeleteDialog } from "./delete-dialog";
-import { SheetDropdown } from "./sheet-dropdown";
+import AccessDropdown from "../access-dropdown";
+import { DeleteDialog } from "../delete-dialog";
+import { SheetDropdown } from "../sheet-dropdown";
 
-export type Shipment = {
+export type Inquiries = {
   id: string;
   name: string;
   phone: string;
   address: string;
   comment: string;
   document: string;
-  pod: string;
   created_at: string;
 };
 
@@ -65,10 +63,10 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
   );
   const customersPages = customersSection ? customersSection[1] : [];
 
-  const [data, setData] = React.useState<Shipment[]>([]);
+  const [data, setData] = React.useState<Inquiries[]>([]);
 
   React.useEffect(() => {
-    fetch("/shipment.json")
+    fetch("/awaiting-prescriptions.json")
       .then((res) => res.json())
       .then(setData);
   }, []);
@@ -80,7 +78,8 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const columns: ColumnDef<Shipment>[] = [
+
+  const columns: ColumnDef<Inquiries>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -147,11 +146,6 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     {
       accessorKey: "document",
       header: "Document",
-      cell: ({ row }) => <div>{<FileText />}</div>,
-    },
-    {
-      accessorKey: "pod",
-      header: "POD",
       cell: ({ row }) => <div>{<FileText />}</div>,
     },
     {

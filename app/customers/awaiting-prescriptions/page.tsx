@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/awaiting-table";
+import { DataTable } from "@/components/tables/awaiting";
 import {
   Breadcrumb,
   BreadcrumbItem,

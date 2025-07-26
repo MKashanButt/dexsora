@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/inquiries-table";
+import { DataTable } from "@/components/tables/inquiries";
 import {
   Breadcrumb,
   BreadcrumbItem,
