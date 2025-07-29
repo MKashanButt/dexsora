@@ -34,8 +34,9 @@ import {
 } from "@/components/ui/table";
 import AccessDropdown from "../access-dropdown";
 import { DeleteDialog } from "../delete-dialog";
-import { SheetDropdown } from "../sheet-dropdown";
 
+import { SheetDropdown } from "../sheet-dropdown";
+import DocumentPopup from "../document-popup";
 export type Inquiries = {
   id: string;
   name: string;
@@ -146,7 +147,9 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     {
       accessorKey: "document",
       header: "Document",
-      cell: ({ row }) => <div>{<FileText />}</div>,
+      cell: ({ row }) => (
+        <div>{row.getValue("Address") ?? <DocumentPopup />}</div>
+      ),
     },
     {
       accessorKey: "actions",

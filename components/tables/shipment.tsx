@@ -36,6 +36,7 @@ import {
 import AccessDropdown from "../access-dropdown";
 import { DeleteDialog } from "../delete-dialog";
 import { SheetDropdown } from "../sheet-dropdown";
+import DocumentPopup from "../document-popup";
 
 export type Shipment = {
   id: string;
@@ -147,12 +148,14 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
     {
       accessorKey: "document",
       header: "Document",
-      cell: ({ row }) => <div>{<FileText />}</div>,
+      cell: ({ row }) => (
+        <div>{row.getValue("document") ?? <DocumentPopup />}</div>
+      ),
     },
     {
       accessorKey: "pod",
       header: "POD",
-      cell: ({ row }) => <div>{<FileText />}</div>,
+      cell: ({ row }) => <div>{row.getValue("pod") ?? <DocumentPopup />}</div>,
     },
     {
       accessorKey: "actions",
