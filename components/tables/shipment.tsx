@@ -69,7 +69,7 @@ export function DataTable({ nav }: { nav: NavItem[] }) {
   const [data, setData] = React.useState<Shipment[]>([]);
 
   React.useEffect(() => {
-    fetch("/shipment.json")
+    fetch("/shipments.json")
       .then((res) => res.json())
       .then(setData);
   }, []);
